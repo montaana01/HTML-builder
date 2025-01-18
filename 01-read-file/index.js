@@ -1,4 +1,4 @@
-let fs = require('fs');
+let fs = require('node:fs');
 const path = require('node:path');
 
 let pathToFile = path.join(__dirname, 'text.txt');
