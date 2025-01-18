@@ -12,8 +12,9 @@ const writeStream = fs.createWriteStream(path.join(__dirname, 'write.txt'));
 console.log("Hello, User!\nWrite text below:\n");
 
 userListener.on('line', (line) => {
-  if (line === "exit" || line === "Exit" || line === "EXIT") {
+  if (line.toLowerCase() === "exit") {
     userListener.close();
+    return;
   }
   writeStream.write(`${line}\n`);
 })
