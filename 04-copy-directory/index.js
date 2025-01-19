@@ -2,11 +2,20 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const copyDirectory = path.join(__dirname, "files");
-const pastDirectory = path.join(__dirname, "files-copy");
+const pastDirectory = path.join(__dirname, 'files-copy');
 
 (() => {
   console.log(`Copying files from "${copyDirectory}" to "${pastDirectory}" directory`);
   fs.promises.mkdir(pastDirectory, { recursive: true })
+    .then(() => {
+      return fs.promises.readdir(pastDirectory);
+    })
+    .then(existingFiles => {
+      const deletePromises = existingFiles.map(file =>
+        fs.promises.unlink(path.join(pastDirectory, file))
+      );
+      return Promise.all(deletePromises);
+    })
     .then(() => {
         return fs.promises.readdir(copyDirectory);
     })
